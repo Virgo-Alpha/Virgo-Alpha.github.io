@@ -1,0 +1,78 @@
+category: SWE & Web Dev
+items:
+- image: images/Menta.png
+  title: Mentorship
+  description: A web app that connects mentors and mentees.
+  github: https://github.com/Virgo-Alpha/Menta
+  deployed: https://menta.onrender.com/
+  article: ''
+  tech_stack:
+  - Node.js
+  - Express
+  - Mustache
+  - nedb
+  - Bootstrap
+- image: images/job_data.png
+  title: Data on Jobs Available
+  description: Live data visualizations of global job stats sourced via APIs.
+  github: https://github.com/Emmastro/ip-project-2
+  deployed: https://ip-project-2.vercel.app/
+  article: ''
+  tech_stack:
+  - Next.js/Vercel
+  - JS
+  - REST APIs
+- image: images/Opus_Futura.png
+  title: Opus Futura
+  description: Future-of-work demo with task management and AI assistance.
+  github: https://github.com/Stoichiometrical/sdWorx
+  deployed: https://velvety-pudding-c3b592.netlify.app/
+  article: https://docs.google.com/presentation/d/13boiVSN6j1A9mFH0a7dphd8rL5EixLTk/edit
+  tech_stack:
+  - React
+  - Flask
+  - OpenAI
+  - TextBlob
+  - REST APIs
+- image: images/CarbonCalc.png
+  title: Carbon Emission Calculator
+  description: Streamlit app estimating carbon footprint between two cities.
+  github: https://github.com/Virgo-Alpha/CarbonCalc
+  deployed: https://carbon-calc.streamlit.app
+  article: ''
+  tech_stack:
+  - Python
+  - Streamlit
+  - Haversine
+  - Pandas
+  - OpenPyXL
+- image: images/sustravels.png
+  title: Sustravels
+  description: Django site to estimate travel impact and Big Five harm proxy.
+  github: https://github.com/Virgo-Alpha/Sustravels
+  deployed: ''
+  article: ''
+  tech_stack:
+  - Python
+  - Django
+- image: images/tembea_kenya.png
+  title: Concierge & Travel Services
+  description: Concierge site for services discovery.
+  github: https://github.com/Virgo-Alpha/Tembea-Kenya
+  deployed: https://tembeakenya1.netlify.app/
+  article: ''
+  tech_stack:
+  - HTML
+  - CSS
+  - JS
+- image: images/linkedin_resume_builder.png
+  title: LinkedIn Résumé Builder
+  description: Scrape LinkedIn and generate a résumé.
+  github: https://github.com/Virgo-Alpha/linkedin_resume_builder
+  deployed: https://linkedin-resume-builder.streamlit.app/
+  article: ''
+  tech_stack:
+  - Python
+  - Selenium
+  - BeautifulSoup
+  - Streamlit

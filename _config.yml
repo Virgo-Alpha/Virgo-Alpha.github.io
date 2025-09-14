@@ -1,0 +1,17 @@
+title: "Benson Mugure — Software Engineering"
+description: "Production-like data engineering builds, explained clearly."
+baseurl: ""
+url: ""
+markdown: kramdown
+theme: null
+plugins: []
+defaults:
+  - scope: { path: "" }
+    values:
+      layout: default
+author: "Benson Mugure"
+github_username: "Virgo-Alpha"
+youtube_channel: "@dataslinger6379"
+medium_username: "b.mugure"
+exclude:
+  - "README.md"

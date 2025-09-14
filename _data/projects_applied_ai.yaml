@@ -1,0 +1,35 @@
+category: Applied AI
+items:
+- image: images/refacer.png
+  title: 'Deepfake: The Harder They Fall'
+  description: Face-swap demo using Refacer.
+  github: ''
+  deployed: https://www.linkedin.com/posts/benson-mugure-017153196_alxabrai-deepfake-appliedai-activity-7142568176705347584-PVdY
+  article: https://github.com/xaviviro/refacer?ref=alxappliedai.com
+  tech_stack:
+  - Refacer
+  - Video
+- image: images/frisque.png
+  title: Frisque — AI Due Diligence
+  description: Multi-agent platform to accelerate VC diligence.
+  github: https://github.com/Virgo-Alpha/Frisque
+  deployed: ''
+  article: https://dev.to/virgoalpha/frisque-using-ai-agents-for-due-diligence-4old
+  tech_stack:
+  - Django
+  - PostgreSQL
+  - Celery
+  - RabbitMQ
+  - Docker
+  - GCS
+  - Google ADK
+- image: images/Story-gen.png
+  title: Story Generator
+  description: Generates stories from prompts via Google GenAI.
+  github: https://github.com/Virgo-Alpha/Story_generator
+  deployed: https://story-generator2.streamlit.app/
+  article: ''
+  tech_stack:
+  - Streamlit
+  - Google Generative AI
+  - Python

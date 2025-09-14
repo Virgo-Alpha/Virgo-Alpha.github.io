@@ -1,0 +1,21 @@
+items:
+- school: Glasgow Caledonian University
+  credential: BSc (Hons) Computing
+  start: Jan 2021
+  end: Dec 2024
+- school: Holberton School
+  credential: Software Engineering (Certificate)
+  start: Jun 2021
+  end: Jun 2022
+- school: Lucerne University of Applied Sciences and Arts
+  credential: Swiss Africa Business Case Challenge
+  start: Jun 2023
+  end: Jul 2023
+- school: The African Leadership University
+  credential: Leadership Core (Certificate)
+  start: Jan 2021
+  end: Aug 2021
+- school: Corporate Finance Institute (CFI)
+  credential: FMVA
+  start: Jul 2022
+  end: Sep 2022

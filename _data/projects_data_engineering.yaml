@@ -1,0 +1,24 @@
+category: Data Engineering
+items:
+- image: images/dashboard.png
+  title: Streamlit Data Viz Dashboard
+  description: Upload a file and get automated plots via Plotly.
+  github: ''
+  deployed: https://prototype-dashboard.streamlit.app/
+  article: ''
+  tech_stack:
+  - Streamlit
+  - Plotly
+  - DuckDB
+- image: images/ship.jpeg
+  title: Shipping Time Prediction
+  description: Regression models to predict shipping times.
+  github: https://github.com/Virgo-Alpha/Shipping_Optimization
+  deployed: ''
+  article: https://www.canva.com/design/DAF2RYnQJFo/GSvrpeeKyGQNx2EQVkn-LQ/edit
+  tech_stack:
+  - Scikit-learn
+  - TensorFlow
+  - Matplotlib
+  - Seaborn
+  - Jupyter

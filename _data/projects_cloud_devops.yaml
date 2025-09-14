@@ -1,0 +1,13 @@
+category: Cloud & DevOps
+items:
+- image: images/AWS.jpg
+  title: Image & Text Detection (AWS Rekognition)
+  description: Serverless pipeline for object & text detection at scale.
+  github: https://github.com/Virgo-Alpha/CPD/blob/main/S2038770CPD/README.md
+  deployed: ''
+  article: https://drive.google.com/file/d/1_2Ib1s4FqsMDURUBCyhMoPYyL2r0H8Ej/view
+  tech_stack:
+  - AWS (EC2, S3, CloudFront, API GW, SQS, Lambda, DynamoDB, Rekognition, SNS)
+  - Python
+  - Boto3
+  - CLI
