@@ -1,0 +1,14 @@
+# Jekyll / Ruby
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+vendor/
+.bundle/
+Gemfile.lock
+
+# Node (if you ever add tooling)
+node_modules/
+
+# macOS / editors
+.DS_Store
