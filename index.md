@@ -49,7 +49,7 @@ title: "Home"
         </a>
 
         <a href="https://www.omprakash.org/citizen/benson-mugure" target="_blank" aria-label="Omprakash">
-          <img src="assets/images/omprakash.jpeg" alt="Omprakash" style="width:48px;height:48px;">
+          <img src="assets/images/omprakash.jpeg" alt="Omprakash" style="width:36px;height:36px;">
         </a>
 
       </p>
