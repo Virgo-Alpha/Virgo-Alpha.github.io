@@ -27,17 +27,31 @@ title: "Home"
 
     <div class="about-text">
       <h1>Hello World! I'm Benson Mugure</h1>
-      <p>Senior Data Analyst | Teacher | Content Creator | .5x Programmer</p>
-      <p>I build practical, production-like data engineering systems — orchestration, storage, transformations, serving, and observability — then explain the decisions behind them.</p>
-      <p><strong>Core skills:</strong> Python · SQL · Linux · Airflow · Spark · BigQuery · Docker · GCP</p>
+      <p>Software Engineer | AWS Certified | Writer</p>
+      <p>I build secure, resilient, high-performing, cost-optimized cloud-native solutions.</p>
+      <p><strong>Core skills:</strong> AWS · Python · Linux · Celery · Django · Docker · GCP</p>
 
       <p class="social-links">
         <a href="https://www.linkedin.com/in/benson-mugure-017153196" target="_blank" aria-label="LinkedIn">
           <i class="fa-brands fa-linkedin"></i>
         </a>
-        <a href="https://www.youtube.com/@dataslinger6379" target="_blank" aria-label="YouTube">
-          <i class="fa-brands fa-youtube"></i>
+
+        <a href="https://dev.to/virgoalpha" target="_blank" aria-label="Dev.to">
+          <i class="fa-brands fa-dev"></i>
         </a>
+
+        <a href="https://github.com/Virgo-Alpha" target="_blank" aria-label="GitHub">
+          <i class="fa-brands fa-github"></i>
+        </a>
+
+        <a href="https://medium.com/@b.mugure" target="_blank" aria-label="Medium">
+          <i class="fa-brands fa-medium" style="color:#12100E;"></i>
+        </a>
+
+        <a href="https://www.omprakash.org/citizen/benson-mugure" target="_blank" aria-label="Omprakash">
+          <img src="assets/images/omprakash.jpeg" alt="Omprakash" style="width:48px;height:48px;">
+        </a>
+
       </p>
     </div>
   </div>

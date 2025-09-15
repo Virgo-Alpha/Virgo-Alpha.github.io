@@ -5,6 +5,10 @@ This is my personal GitHub Pages site. It is built with **Jekyll** and hosted by
 
 ## 🚀 Getting Started (Local Development)
 
+```bash
+For any updates to the UI, update the index.md at the root of the folder and assets/css/styles.css for styling.
+```
+
 Follow these steps to run the site locally.
 
 ### 1. Install Ruby and Bundler
