@@ -247,6 +247,9 @@ a { color: var(--accent); text-decoration: none; }
 /* Brand colors */
 .social-links a[href*="linkedin"] i { color: #0a66c2; }
 .social-links a[href*="youtube"]  i { color: #ff0000; }
+.social-links a[href*="github"]  i { color: #181717; }
+.social-links a[href*="dev.to"]  i { color: #0A0A0A; }
+.social-links a[href*="medium"]  i { color: #12100E; }
 
 /* Hover effect */
 .social-links a:hover i { opacity: .85; }
