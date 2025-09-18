@@ -9,6 +9,7 @@ items:
   tech_stack:
   - Refacer
   - Video
+
 - image: images/frisque.png
   title: Frisque — AI Due Diligence
   description: Multi-agent platform to accelerate VC diligence.
@@ -23,13 +24,3 @@ items:
   - Docker
   - GCS
   - Google ADK
-- image: images/Story-gen.png
-  title: Story Generator
-  description: Generates stories from prompts via Google GenAI.
-  github: https://github.com/Virgo-Alpha/Story_generator
-  deployed: https://story-generator2.streamlit.app/
-  article: ''
-  tech_stack:
-  - Streamlit
-  - Google Generative AI
-  - Python

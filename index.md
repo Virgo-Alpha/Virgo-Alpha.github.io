@@ -61,6 +61,7 @@ title: "Home"
 <section id="projects" class="section">
   <div class="section-header">
     <h2>🚀 Projects</h2>
+    <!-- TODO: Maybe have the below link point to a different page where all the projects are but are subdivided by category -->
     <a class="view-all" href="https://github.com/{{ site.github_username }}" target="_blank" rel="noopener">All repos →</a>
   </div>
 
@@ -83,6 +84,31 @@ title: "Home"
             {% if item.stack %}<p class="card-tags">{{ item.stack }}</p>{% endif %}
             <div class="card-actions">
               {% if item.screenshot %}<a href="#" class="btn ghost" data-lightbox-src="{{ item.screenshot | relative_url }}">Preview</a>{% endif %}
+              {% if item.live %}
+
+              <a class="icon-link" href="{{ item.live }}" target="_blank" aria-label="Live site">
+                <i class="fa-solid fa-globe"></i>
+              </a>
+            {% endif %}
+
+            {% if item.github %}
+              <a class="icon-link" href="{{ item.github }}" target="_blank" aria-label="GitHub repository">
+                <i class="fa-brands fa-github"></i>
+              </a>
+            {% endif %}
+
+            {% if item.devto %}
+              <a class="icon-link" href="{{ item.devto }}" target="_blank" aria-label="Dev.to article">
+                <i class="fa-brands fa-dev"></i>
+              </a>
+            {% endif %}
+
+            {% if item.slides %}
+              <a class="icon-link" href="{{ item.slides }}" target="_blank" aria-label="Presentation slides">
+                <i class="fa-solid fa-person-chalkboard"></i>
+              </a>
+            {% endif %}
+
               <a class="btn" href="{{ item.link }}" target="_blank" rel="noopener">Open</a>
             </div>
           </div>
@@ -105,6 +131,30 @@ title: "Home"
           {% if item.stack %}<p class="card-tags">{{ item.stack }}</p>{% endif %}
           <div class="card-actions">
             {% if item.screenshot %}<a href="#" class="btn ghost" data-lightbox-src="{{ item.screenshot | relative_url }}">Preview</a>{% endif %}
+            {% if item.live %}
+            <a class="icon-link" href="{{ item.live }}" target="_blank" aria-label="Live site">
+              <i class="fa-solid fa-globe"></i>
+            </a>
+          {% endif %}
+
+          {% if item.github %}
+            <a class="icon-link" href="{{ item.github }}" target="_blank" aria-label="GitHub repository">
+              <i class="fa-brands fa-github"></i>
+            </a>
+          {% endif %}
+
+          {% if item.devto %}
+            <a class="icon-link" href="{{ item.devto }}" target="_blank" aria-label="Dev.to article">
+              <i class="fa-brands fa-dev"></i>
+            </a>
+          {% endif %}
+
+          {% if item.slides %}
+            <a class="icon-link" href="{{ item.slides }}" target="_blank" aria-label="Presentation slides">
+              <i class="fa-solid fa-person-chalkboard"></i>
+            </a>
+          {% endif %}
+
             <a class="btn" href="{{ item.link }}" target="_blank" rel="noopener">Open</a>
           </div>
         </div>

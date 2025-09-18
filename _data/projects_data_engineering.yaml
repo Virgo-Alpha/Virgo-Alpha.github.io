@@ -1,24 +1,14 @@
 category: Data Engineering
 items:
 - image: images/dashboard.png
-  title: Streamlit Data Viz Dashboard
-  description: Upload a file and get automated plots via Plotly.
-  github: ''
-  deployed: https://prototype-dashboard.streamlit.app/
-  article: ''
+  title: LinkedIn Job Posts Insights
+  description: Comprehensive data pipeline and dashboard for analyzing LinkedIn job postings (2023-2024).
+  github: 'https://github.com/Virgo-Alpha/LinkedIn_Job_Posts_Insights'
+  article: 'https://dev.to/virgoalpha/data-engineering-concepts-a-project-based-introduction-4pka'
   tech_stack:
-  - Streamlit
-  - Plotly
-  - DuckDB
-- image: images/ship.jpeg
-  title: Shipping Time Prediction
-  description: Regression models to predict shipping times.
-  github: https://github.com/Virgo-Alpha/Shipping_Optimization
-  deployed: ''
-  article: https://www.canva.com/design/DAF2RYnQJFo/GSvrpeeKyGQNx2EQVkn-LQ/edit
-  tech_stack:
-  - Scikit-learn
-  - TensorFlow
-  - Matplotlib
-  - Seaborn
-  - Jupyter
+  - Terraform
+  - Airflow
+  - Docker
+  - dbt
+  - GCP
+  - Looker Studio
