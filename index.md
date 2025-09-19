@@ -164,19 +164,18 @@ title: "Home"
   {% endif %}
 </section>
 
-<!-- ===================== Videos ===================== -->
-<section id="videos" class="section">
+<!-- ===================== Certification ===================== -->
+<section id="Certification" class="section">
   <div class="section-header">
-    <h2>🎥 Videos</h2>
-    <a class="view-all" href="https://youtube.com/{{ site.youtube_channel }}" target="_blank" rel="noopener">Channel →</a>
+    <h2>📜 Certification</h2>
+    <a class="view-all" href="https://www.linkedin.com/in/benson-mugure-017153196/details/certifications/" target="_blank" rel="noopener">All certificates →</a>
   </div>
-
-  {% assign videos_count = site.data.videos | size %}
-  {% if videos_count > 4 %}
+  {% assign certificates_count = site.data.certificates | size %}
+  {% if certificates_count > 4 %}
     <div class="carousel">
-      <button class="scroll-btn left" data-target="#videos-track" aria-label="Scroll videos left">‹</button>
-      <div id="videos-track" class="carousel-track" role="region" aria-label="Videos list">
-        {% for item in site.data.videos %}
+      <button class="scroll-btn left" data-target="#certificates-track" aria-label="Scroll certificates left">‹</button>
+      <div id="certificates-track" class="carousel-track" role="region" aria-label="certificates list">
+        {% for item in site.data.certificates %}
         <article class="card">
           <a class="thumb" href="{{ item.link }}" target="_blank" rel="noopener" aria-label="Open video">
             <img src="{{ item.image | default: '/assets/images/placeholder_video.jpg' | relative_url }}"
@@ -189,17 +188,17 @@ title: "Home"
             {% if item.note %}<p class="card-text">{{ item.note }}</p>{% endif %}
             <div class="card-actions">
               {% if item.screenshot %}<a href="#" class="btn ghost" data-lightbox-src="{{ item.screenshot | relative_url }}">Preview</a>{% endif %}
-              <a class="btn" href="{{ item.link }}" target="_blank" rel="noopener">Watch</a>
+              <a class="btn" href="{{ item.link }}" target="_blank" rel="noopener">View</a>
             </div>
           </div>
         </article>
         {% endfor %}
       </div>
-      <button class="scroll-btn right" data-target="#videos-track" aria-label="Scroll videos right">›</button>
+      <button class="scroll-btn right" data-target="#certificates-track" aria-label="Scroll certificates right">›</button>
     </div>
   {% else %}
     <div class="gallery">
-      {% for item in site.data.videos %}
+      {% for item in site.data.certificates %}
       <article class="card">
         <a class="thumb" href="{{ item.link }}" target="_blank" rel="noopener" aria-label="Open video">
           <img src="{{ item.image | default: '/assets/images/placeholder_video.jpg' | relative_url }}"
@@ -223,7 +222,7 @@ title: "Home"
 <section id="articles" class="section">
   <div class="section-header">
     <h2>✍️ Articles</h2>
-    <a class="view-all" href="https://medium.com/@{{ site.medium_username }}" target="_blank" rel="noopener">Medium →</a>
+    <a class="view-all" href="https://dev.to/virgoalpha" target="_blank" rel="noopener">dev.to →</a>
   </div>
 
   {% assign articles_count = site.data.articles | size %}
@@ -272,6 +271,37 @@ title: "Home"
       {% endfor %}
     </div>
   {% endif %}
+</section>
+
+<!-- ===================== Contact ===================== -->
+<section id="contact" class="section">
+  <div class="section-header">
+    <h2><i class="fa-solid fa-envelope"></i> Contact Me</h2>
+    <p>Get in touch with me directly using the form below.</p>
+  </div>
+
+  <div class="contact-form-container">
+    <form action="https://formsubmit.co/b.mugure@alustudent.com" method="POST" class="contact-form">
+      <!-- Disable CAPTCHA -->
+      <input type="hidden" name="_captcha" value="false">
+
+      <div class="form-group">
+        <input type="text" name="name" placeholder="Your Name" required>
+      </div>
+
+      <div class="form-group">
+        <input type="email" name="email" placeholder="Your Email" required>
+      </div>
+
+      <div class="form-group">
+        <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn">Send</button>
+      </div>
+    </form>
+  </div>
 </section>
 
 <!-- Tiny helper script for arrow buttons -->

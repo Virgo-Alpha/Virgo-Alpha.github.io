@@ -1,0 +1,48 @@
+- title: AWS Certified Solutions Architect – Associate
+  link: https://www.credly.com/badges/f560cf0a-f555-4dbc-a5ad-e62a90118961/linked_in_profile
+  note: Badge owners are able to strategically design well-architected distributed systems that are scalable, resilient, efficient, and fault-tolerant.
+  image: "/assets/new_images/saa.png"
+  preview_gif: "/assets/new_images/saa.png"
+  screenshot: "/assets/new_images/saa.png"
+
+- title: Data Engineering
+  link: https://certificate.datatalks.club/dezoomcamp/2025/f0f720ad6eaf67bd83876cbe50588c3b3624cfdb.pdf
+  note: Awarded for successfully completing Data Engineering Zoomcamp by DataTalks.Club and passing the Capstone project
+  image: "/assets/new_images/de.jpg"
+  preview_gif: "/assets/new_images/de.jpg"
+  screenshot: "/assets/new_images/de.jpg"
+
+- title: ALX Software Engineering
+  link: https://savanna.alxafrica.com/certificates/ep58JyhZFm
+  note: C • Data Structure & Algorithms • Reverse Engineering & Security • Python • SQL • Front-end dev( JS and Flask APIs )• Linux/CMD • Systems Engineering / DevOPS • Git
+  image: "/assets/new_images/alx.jpeg"
+  preview_gif: "/assets/new_images/alx.jpeg"
+  screenshot: "/assets/new_images/alx.jpeg"
+
+- title: Business Intelligence & Data Analyst (BIDA)™
+  link: https://credentials.corporatefinanceinstitute.com/21cbca0b-ed85-4eac-b430-34535102a7b4#acc.h4youN7M
+  note: Power Query · Power BI · Tableau · SQL · Python
+  image: "/assets/new_images/BIDA.png"
+  preview_gif: "/assets/new_images/BIDA.png"
+  screenshot: "/assets/new_images/BIDA.png"
+
+- title: Financial Modeling & Valuation Analyst (FMVA)®
+  link: https://credentials.corporatefinanceinstitute.com/d038fa29-3d36-4464-a823-b49aea3fa9d8#acc.zP0Ux9OD
+  note: Corporate & Business Strategy • Powerpoints & Pitchbooks • Business Valuation Modelling • FP & A Cash Flow Forecasting • Financial Statements • Budgeting and Forecasting.
+  image: "/assets/new_images/fmva.png"
+  preview_gif: "/assets/new_images/fmva.png"
+  screenshot: "/assets/new_images/fmva.png"
+
+- title: McKinsey.org Forward Program
+  link: https://www.credly.com/badges/9fef6b8b-908f-41b3-ac33-572a81fc265a/linked_in_profile
+  note: Problem solving · Communicating for Impact · Adaptability & Resilience · Relationships & Well-being
+  image: "/assets/new_images/forward.png"
+  preview_gif: "/assets/new_images/forward.png"
+  screenshot: "/assets/new_images/forward.png"
+
+- title: AWS Certified Cloud Practitioner
+  link: https://www.credly.com/badges/f45af27b-7e37-48c8-9eca-84871ae413e2/linked_in_profile
+  note: Badge owners are able to identify essential AWS services necessary to set up AWS-focused projects.
+  image: "/assets/new_images/ccp.png"
+  preview_gif: "/assets/new_images/ccp.png"
+  screenshot: "/assets/new_images/ccp.png"

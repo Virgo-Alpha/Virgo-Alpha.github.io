@@ -1,6 +1,7 @@
 # TODO: Create a page that will show all projects within respective categories: 
 #   SWE and Web Dev, DevOps and Cloud, Daa Engineering, Applied AI
 
+# Applied AI
 - title: "Frisque — AI Due Diligence"
   link: "https://github.com/Virgo-Alpha/Frisque"
   devto: "https://dev.to/virgoalpha/frisque-using-ai-agents-for-due-diligence-4old"
@@ -10,6 +11,7 @@
   preview_gif: "/assets/new_images/frisque.png"
   screenshot: "/assets/new_images/frisque.png"
 
+# Data Engineering
 - title: "LinkedIn Job Posts Insights"
   github: "https://github.com/Virgo-Alpha/LinkedIn_Job_Posts_Insights"
   link: "https://lookerstudio.google.com/reporting/e23b48ee-def1-4ac3-8a8a-f45df413dbf2/page/qgsGF?s=r0sYLY6crpE"
@@ -20,6 +22,7 @@
   preview_gif: "/assets/new_images/linkedin_insights.png"
   screenshot: "/assets/new_images/linkedin_insights.png"
 
+# SWE and Web Dev
 - title: "Finamu - Distributed film financing platform"
   link: "https://github.com/Virgo-Alpha/Finamu"
   slides: "https://docs.google.com/presentation/d/1gTg78QBbBsz9_rX9IhoCYze3HvIhfMqp/edit?usp=sharing&ouid=102435224940560953120&rtpof=true&sd=true"
@@ -29,6 +32,7 @@
   preview_gif: "/assets/new_images/finamu.jpg"
   screenshot: "/assets/new_images/finamu.jpg"
 
+# SWE and Web Dev
 - title: "Menta - Student Mentorship Platform"
   github: "https://github.com/Virgo-Alpha/Menta"
   link: "https://menta.onrender.com/"
@@ -38,6 +42,7 @@
   preview_gif: "/assets/new_images/Menta.png"
   screenshot: "/assets/new_images/Menta.png"
 
+# Applied AI
 - title: "Deepfake: The Harder They Fall"
   link: "https://www.linkedin.com/posts/benson-mugure-017153196_alxabrai-deepfake-appliedai-activity-7142568176705347584-PVdY"
   devto: "https://dev.to/aws-builders/deep-fake-easily-made-279i"
@@ -48,6 +53,7 @@
   preview_gif: "/assets/new_images/refacer.png"
   screenshot: "/assets/new_images/refacer.png"
 
+# SWE and Web Dev
 - title: "Job data - platform for job trends"
   github: "https://github.com/Emmastro/ip-project-2"
   link: "https://ip-project-2.vercel.app/"

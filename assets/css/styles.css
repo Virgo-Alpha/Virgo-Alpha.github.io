@@ -253,3 +253,39 @@ a[href*="medium"]  i { color: #12100E; }
 
 /* Hover effect */
 .social-links a:hover i { opacity: .85; }
+
+.contact-form-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.contact-form textarea {
+  resize: vertical;
+}
+
+.contact-form .btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: #0a66c2; /* LinkedIn blue (example) */
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.contact-form .btn:hover {
+  background-color: #084b8a;
+}
