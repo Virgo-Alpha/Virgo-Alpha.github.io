@@ -289,3 +289,9 @@ a[href*="medium"]  i { color: #12100E; }
 .contact-form .btn:hover {
   background-color: #084b8a;
 }
+
+.nav {
+  display: flex;
+  gap: 1rem;            /* space between links */
+  align-items: center;
+}

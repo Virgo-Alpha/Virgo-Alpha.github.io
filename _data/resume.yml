@@ -1,0 +1,6 @@
+- title: "Resume"
+  description: >
+    My latest resume highlighting my experience in software engineering, web development, cloud & DevOps, 
+    and data engineering.
+  image: /assets/new_images/resume_preview.png   # thumbnail/cover image of your resume
+  pdf: /assets/docs/Benson_Mugure_Resume.pdf # actual PDF file in your repo
