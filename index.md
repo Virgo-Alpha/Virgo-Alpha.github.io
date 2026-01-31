@@ -45,7 +45,7 @@ title: "Home"
         </a>
 
         <a href="https://medium.com/@b.mugure" target="_blank" aria-label="Medium">
-          <i class="fa-brands fa-medium" style="color:#12100E;"></i>
+          <i class="fa-brands fa-medium"></i>
         </a>
 
         <a href="https://www.omprakash.org/citizen/benson-mugure" target="_blank" aria-label="Omprakash">
