@@ -59,24 +59,17 @@
       const icon = toggleBtn.querySelector('i');
       const html = document.documentElement;
       
-      // Check for saved user preference, if any, on load
+      // Check for saved user preference
       const savedTheme = localStorage.getItem('theme');
       const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      
-      function smoothTransition() {
-        html.classList.add('transitioning');
-        window.setTimeout(() => {
-          html.classList.remove('transitioning');
-        }, 300);
-      }
 
       function updateIcon(theme) {
-        if (theme === 'dark') {
+        if (theme === 'light') {
           icon.classList.remove('fa-moon');
-          icon.classList.add('fa-sun'); // Show sun to switch to light
+          icon.classList.add('fa-sun');
         } else {
           icon.classList.remove('fa-sun');
-          icon.classList.add('fa-moon'); // Show moon to switch to dark
+          icon.classList.add('fa-moon');
         }
       }
 
@@ -84,40 +77,36 @@
         html.setAttribute('data-theme', theme);
         localStorage.setItem('theme', theme);
         updateIcon(theme);
+        
+        // Reload particles if function exists
+        if (typeof loadParticles === 'function') {
+          loadParticles(theme);
+        }
       }
 
-      // Initialize
+      // Initialize Theme
       if (savedTheme) {
-        setTheme(savedTheme);
+        // Use saved preference
+        html.setAttribute('data-theme', savedTheme);
+        updateIcon(savedTheme);
       } else {
-        // If no save, respect OS but set icon correctly
-        // If OS is dark, we are in dark mode (default), show Sun
-        // If OS is light, we are in light mode, show Moon
-        if (systemPrefersDark) {
-          updateIcon('dark');
-        } else {
-          updateIcon('light');
-        }
+        // Use system preference
+        const defaultTheme = systemPrefersDark ? 'dark' : 'light';
+        html.setAttribute('data-theme', defaultTheme);
+        updateIcon(defaultTheme);
       }
 
+      // Toggle Listener
       toggleBtn.addEventListener('click', () => {
-        smoothTransition();
+        html.classList.add('transitioning');
         const currentTheme = html.getAttribute('data-theme');
-        let newTheme = 'dark'; // Default target
+        const targetTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        setTheme(targetTheme);
 
-        if (currentTheme) {
-          newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        } else {
-          // No manual override set yet. Check OS.
-          // If OS is dark, we want to go light.
-          // If OS is light, we want to go dark.
-          if (systemPrefersDark) {
-             newTheme = 'light';
-          } else {
-             newTheme = 'dark';
-          }
-        }
-        setTheme(newTheme);
+        setTimeout(() => {
+          html.classList.remove('transitioning');
+        }, 300);
       });
       
       // Initialize AOS

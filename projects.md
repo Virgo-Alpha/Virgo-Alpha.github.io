@@ -14,7 +14,7 @@ permalink: /projects/
 
   {% assign projects_count = site.data.projects | size %}
   {% if projects_count > 4 %}
-    <div class="carousel">
+    <div class="carousel-wrapper">
       <button class="scroll-btn left" data-target="#projects-track" aria-label="Scroll projects left">‹</button>
       <div id="projects-track" class="carousel-track" role="region" aria-label="Projects list">
         {% for item in site.data.projects %}

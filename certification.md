@@ -12,7 +12,7 @@ permalink: /certification/
   </div>
   {% assign certificates_count = site.data.certificates | size %}
   {% if certificates_count > 4 %}
-    <div class="carousel">
+    <div class="carousel-wrapper">
       <button class="scroll-btn left" data-target="#certificates-track" aria-label="Scroll certificates left">‹</button>
       <div id="certificates-track" class="carousel-track" role="region" aria-label="certificates list">
         {% for item in site.data.certificates %}

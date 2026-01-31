@@ -491,7 +491,37 @@ html[data-theme="light"] .about-text h1 {
   -webkit-text-fill-color: transparent;
 }
 
+/* Carousel Layout */
+.carousel-track {
+  display: flex;
+  overflow-x: auto;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.carousel-track::-webkit-scrollbar {
+  display: none;
+  /* Chrome/Safari */
+}
+
+.carousel-track .card {
+  min-width: 320px;
+  flex: 0 0 320px;
+  /* Fixed width for carousel items */
+  height: auto;
+}
+
 /* Carousel scroll buttons */
+/* Carousel scroll buttons */
+.carousel-wrapper {
+  position: relative;
+  padding: 0 60px;
+  /* Space for arrows */
+}
+
 .scroll-btn {
   position: absolute;
   top: 50%;
@@ -513,11 +543,11 @@ html[data-theme="light"] .about-text h1 {
 }
 
 .scroll-btn.left {
-  left: 5px;
+  left: 0;
 }
 
 .scroll-btn.right {
-  right: 5px;
+  right: 0;
 }
 
 /* Social links */

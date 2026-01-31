@@ -13,7 +13,7 @@ permalink: /articles/
 
   {% assign articles_count = site.data.articles | size %}
   {% if articles_count > 4 %}
-    <div class="carousel">
+    <div class="carousel-wrapper">
       <button class="scroll-btn left" data-target="#articles-track" aria-label="Scroll articles left">‹</button>
       <div id="articles-track" class="carousel-track" role="region" aria-label="Articles list">
         {% for item in site.data.articles %}
