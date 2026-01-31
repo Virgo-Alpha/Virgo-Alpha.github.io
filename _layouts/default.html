@@ -4,16 +4,40 @@
     {% include head.html %}
   </head>
   <body>
+    <div id="tsparticles"></div>
+
+    <!-- Independent Social Sidebar -->
+    <aside class="social-sidebar">
+      <a href="https://www.linkedin.com/in/benson-mugure-017153196" target="_blank" aria-label="LinkedIn">
+        <i class="fa-brands fa-linkedin"></i>
+      </a>
+      <a href="https://dev.to/virgoalpha" target="_blank" aria-label="Dev.to">
+        <i class="fa-brands fa-dev"></i>
+      </a>
+      <a href="https://github.com/Virgo-Alpha" target="_blank" aria-label="GitHub">
+        <i class="fa-brands fa-github"></i>
+      </a>
+      <a href="https://medium.com/@b.mugure" target="_blank" aria-label="Medium">
+        <i class="fa-brands fa-medium"></i>
+      </a>
+      <a href="https://www.omprakash.org/citizen/benson-mugure" target="_blank" aria-label="Omprakash">
+        <img src="{{ '/assets/images/omprakash.jpeg' | relative_url }}" alt="Omprakash" class="omprakash-icon">
+      </a>
+    </aside>
+
     <header class="site-header">
       <div class="wrap">
         <!-- <a class="brand" href="#about">MS</a> -->
         <nav class="nav">
-          <a href="#about">About</a>
-          <a href="#projects">Projects</a>
-          <a href="#Certification">Certification</a>
-          <a href="#articles">Articles</a>
-          <a href="#resume">My Resume</a>
-          <a href="#contact">Contact me</a>
+          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+          <a href="{{ '/' | relative_url }}">About</a>
+          <a href="{{ '/projects/' | relative_url }}">Projects</a>
+          <a href="{{ '/certification/' | relative_url }}">Certification</a>
+          <a href="{{ '/articles/' | relative_url }}">Articles</a>
+          <a href="{{ '/resume/' | relative_url }}">My Resume</a>
+          <a href="{{ '/contact/' | relative_url }}">Contact me</a>
         </nav>
       </div>
     </header>
@@ -23,7 +47,247 @@
     <footer class="site-footer">
       <p>© {{ site.time | date: '%Y' }} {{ site.author }}</p>
     </footer>
+
+    <!-- AOS Animation JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- tsParticles -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.11.1/tsparticles.bundle.min.js"></script>
+
     <script>
+      // Theme Toggle Logic
+      const toggleBtn = document.getElementById('theme-toggle');
+      const icon = toggleBtn.querySelector('i');
+      const html = document.documentElement;
+      
+      // Check for saved user preference, if any, on load
+      const savedTheme = localStorage.getItem('theme');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+      function smoothTransition() {
+        html.classList.add('transitioning');
+        window.setTimeout(() => {
+          html.classList.remove('transitioning');
+        }, 300);
+      }
+
+      function updateIcon(theme) {
+        if (theme === 'dark') {
+          icon.classList.remove('fa-moon');
+          icon.classList.add('fa-sun'); // Show sun to switch to light
+        } else {
+          icon.classList.remove('fa-sun');
+          icon.classList.add('fa-moon'); // Show moon to switch to dark
+        }
+      }
+
+      function setTheme(theme) {
+        html.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        updateIcon(theme);
+      }
+
+      // Initialize
+      if (savedTheme) {
+        setTheme(savedTheme);
+      } else {
+        // If no save, respect OS but set icon correctly
+        // If OS is dark, we are in dark mode (default), show Sun
+        // If OS is light, we are in light mode, show Moon
+        if (systemPrefersDark) {
+          updateIcon('dark');
+        } else {
+          updateIcon('light');
+        }
+      }
+
+      toggleBtn.addEventListener('click', () => {
+        smoothTransition();
+        const currentTheme = html.getAttribute('data-theme');
+        let newTheme = 'dark'; // Default target
+
+        if (currentTheme) {
+          newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        } else {
+          // No manual override set yet. Check OS.
+          // If OS is dark, we want to go light.
+          // If OS is light, we want to go dark.
+          if (systemPrefersDark) {
+             newTheme = 'light';
+          } else {
+             newTheme = 'dark';
+          }
+        }
+        setTheme(newTheme);
+      });
+      
+      // Initialize AOS
+      AOS.init({
+        duration: 800,
+        easing: 'slide',
+        once: true,
+        mirror: false
+      });
+
+      // Carousel Helper Script
+      (function () {
+        function init(btn) {
+          var targetSel = btn.getAttribute('data-target');
+          var track = document.querySelector(targetSel);
+          if (!track) return;
+          var step = Math.max(300, Math.floor(track.clientWidth * 0.9));
+
+          btn.addEventListener('click', function () {
+            track.scrollBy({ left: btn.classList.contains('left') ? -step : step, behavior: 'smooth' });
+          });
+
+          function update() {
+            var max = track.scrollWidth - track.clientWidth - 1;
+            var x = track.scrollLeft;
+            var leftBtn = track.parentElement.querySelector('.scroll-btn.left');
+            var rightBtn = track.parentElement.querySelector('.scroll-btn.right');
+            if (leftBtn) leftBtn.disabled = x <= 0;
+            if (rightBtn) rightBtn.disabled = x >= max;
+          }
+          track.addEventListener('scroll', update, { passive: true });
+          window.addEventListener('resize', update);
+          update();
+        }
+        document.querySelectorAll('.scroll-btn').forEach(init);
+      })();
+
+      // Particle Configurations
+      const starsConfig = {
+        fpsLimit: 60,
+        interactivity: {
+          events: {
+            onClick: { enable: true, mode: "push" },
+            onHover: { enable: true, mode: "repulse" },
+            resize: true
+          },
+          modes: {
+            push: { quantity: 4 },
+            repulse: { distance: 200, duration: 0.4 }
+          }
+        },
+        particles: {
+          color: { value: "#ffffff" },
+          links: {
+            color: "#ffffff",
+            distance: 150,
+            enable: true,
+            opacity: 0.1,
+            width: 1
+          },
+          collisions: { enable: true },
+          move: {
+            direction: "none",
+            enable: true,
+            outModes: { default: "bounce" },
+            random: false,
+            speed: 1,
+            straight: false
+          },
+          number: {
+            density: { enable: true, area: 800 },
+            value: 40
+          },
+          opacity: { value: 0.1 },
+          shape: { type: "circle" },
+          size: {
+            value: { min: 1, max: 3 }
+          }
+        },
+        detectRetina: true
+      };
+
+      const cloudsConfig = {
+        fpsLimit: 60,
+        particles: {
+          number: {
+            value: 6, // Fewer clouds
+            density: { enable: true, area: 800 }
+          },
+          color: { value: "#ffffff" },
+          shape: {
+            type: "image",
+            image: {
+              src: "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9IiNmZmZmZmYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTE3IDEwQzE3IDYuNjg2MjkgMTQuMzEzNyA0IDExIDRDOC4xOTc5OSA0IDUuODQ1MDQgNS45NTI5OCA1LjE4ODQ2IDguNTcyNzlDMi43OTM3MyA4Ljc5MDkzIDEgMTAuNzYzNCAxIDEzLjEyNUMxIDE1LjY1OTYgMy4wMTQ3MiAxNy43NSA1LjUgMTcuNzVIMTYuNUMxOS41Mzc2IDE3Ljc1IDIyIDE1LjI4NzYgMjIgMTIuMjVDMjIgOS40Nzk1MiAxOS45NTc1IDcuMTg5NTYgMTcuMjkgNi44NDA3M0MxNy4wOTg0IDcuODQ4OCAxNyA4LjkwNTYzIDE3IDEwWiIvPjwvc3ZnPg==",
+              width: 100,
+              height: 100
+            }
+          },
+          opacity: {
+            value: 0.8,
+            random: false,
+          },
+          size: {
+            value: { min: 60, max: 120 },
+            random: true
+          },
+          move: {
+            enable: true,
+            speed: 0.3, // Drift slowly
+            direction: "right",
+            random: false,
+            straight: false,
+            outModes: "out"
+          }
+        },
+        interactivity: {
+          events: {
+            onHover: { enable: true, mode: "repulse" },
+            onClick: { enable: true, mode: "push" }
+          },
+          modes: {
+            repulse: { distance: 200, duration: 0.4 },
+            push: { quantity: 2 }
+          }
+        },
+        detectRetina: true
+      };
+
+      const tsparticlesDiv = document.getElementById("tsparticles");
+
+      async function loadParticles(theme) {
+        // Use clouds for light mode, stars for dark mode
+        const config = theme === 'light' ? cloudsConfig : starsConfig;
+        await tsParticles.load("tsparticles", config);
+      }
+      
+      // Initialize based on current theme
+      // We need to know the initial effective theme.
+      // The script at the top sets localStorage or data-theme, but we can check the html attribute.
+      const initialTheme = document.documentElement.getAttribute('data-theme') || 
+                           (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      loadParticles(initialTheme);
+
+      // Hook into the existing theme mechanism is tricky because the script is inside `head.html` or inline.
+      // But we have the toggle button listener above!
+      // We need to update that listener to call loadParticles.
+      // Since I am replacing the END of the script, I need to make sure I am not breaking the listener above.
+      // Wait, the listener above (lines 75-103) calls `setTheme`.
+      // `setTheme` is defined there. I can't easily modify `setTheme` from here if it's in a closure or previous block.
+      // But `setTheme` sets `localStorage`.
+      // I can add a listener to the toggle button again, OR rely on a MutationObserver on html[data-theme], OR just update the toggle code.
+      // The toggle code is earlier in the file (lines 75-103).
+      // I should probably replace the WHOLE script block or at least the relevant parts if I want to integrate clean.
+      // However, I am editing the bottom part.
+      // Let's use a MutationObserver to watch for theme changes on HTML tag. This is robust.
+      
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.type === "attributes" && mutation.attributeName === "data-theme") {
+            const newTheme = document.documentElement.getAttribute('data-theme');
+            loadParticles(newTheme);
+          }
+        });
+      });
+      
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["data-theme"]
+      });
+
       // Smooth scroll
       document.querySelectorAll('a[href^="#"]').forEach(a => {
         a.addEventListener('click', e => {
