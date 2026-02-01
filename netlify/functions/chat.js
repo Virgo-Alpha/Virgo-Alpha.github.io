@@ -39,32 +39,30 @@ exports.handler = async (event, context) => {
     }
 
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-    // Construct a properly formatted prompt with clear sections
-    const systemInstruction = `You are Bensonbot, an AI assistant for Benson Mugure's portfolio website. Your goal is to help recruiters and visitors learn about Benson's skills, experience, and projects.
+    
+    // Explicitly target v1 and use systemInstruction capability
+    const model = genAI.getGenerativeModel({ 
+      model: "gemini-2.5-flash",
+      systemInstruction: `You are Bensonbot, an AI assistant for Benson Mugure's portfolio website. Your goal is to help recruiters and visitors learn about Benson's skills, experience, and projects.
 
 INSTRUCTIONS:
 - Answer questions based ONLY on the provided context from Benson's portfolio
 - Be professional, concise, and enthusiastic
 - If the context doesn't contain the answer, politely say so and suggest related topics you can help with
 - Speak in first person as if you're representing Benson
-- Keep responses focused and relevant to the question asked`;
+- Keep responses focused and relevant to the question asked`
+    }, { apiVersion: 'v1' });
 
     let prompt;
     if (context && context.trim().length > 0) {
-      prompt = `${systemInstruction}
-
-CONTEXT FROM BENSON'S PORTFOLIO:
+      prompt = `CONTEXT FROM BENSON'S PORTFOLIO:
 ${context}
 
 USER QUESTION: ${query}
 
 Please provide a helpful, accurate answer based on the context above:`;
     } else {
-      prompt = `${systemInstruction}
-
-USER QUESTION: ${query}
+      prompt = `USER QUESTION: ${query}
 
 Note: No specific context was found for this query. Please provide a general helpful response about what topics you can help with regarding Benson's portfolio (skills, projects, experience, certifications, etc.):`;
     }
