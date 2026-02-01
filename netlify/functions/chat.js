@@ -69,7 +69,7 @@ USER QUESTION: ${query}
 Note: No specific context was found for this query. Please provide a general helpful response about what topics you can help with regarding Benson's portfolio (skills, projects, experience, certifications, etc.):`;
     }
 
-    console.log(`Processing query: "${query}" with context length: ${context ? context.length : 0}`);
+    console.log(`Processing query: "${query.substring(0, 50)}${query.length > 50 ? '...' : ''}" with context length: ${context ? context.length : 0}`);
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
