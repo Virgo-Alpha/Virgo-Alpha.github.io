@@ -14,8 +14,8 @@ title: "Home"
     <div class="about-text">
       <h1>Hello World! I'm Benson Mugure</h1>
       <p>Software Engineer | AWS Certified | Writer</p>
+      <p><strong>Benson's Top skills / Core skills:</strong> AWS · Python · Linux · Celery · Django · Docker · GCP</p>
       <p>I build secure, resilient, high-performing, cost-optimized cloud-native solutions.</p>
-      <p><strong>Core skills:</strong> AWS · Python · Linux · Celery · Django · Docker · GCP</p>
 
       <p class="social-links">
         <a href="https://www.linkedin.com/in/benson-mugure" target="_blank" aria-label="LinkedIn">

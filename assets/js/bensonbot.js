@@ -1,4 +1,4 @@
-import { create, insert, search } from 'https://cdn.jsdelivr.net/npm/@orama/orama@2.0.16/+esm';
+import { create, insert, insertMultiple, search } from 'https://cdn.jsdelivr.net/npm/@orama/orama@2.0.16/+esm';
 
 const BENSONBOT_ENDPOINT = "/.netlify/functions/chat";
 
@@ -108,17 +108,32 @@ async function initBensonbot() {
 
     const loadingId = addLoading();
 
+    // 1. Clean query for better Orama matching (remove stop words/question phrases)
+    const cleanTerm = query.toLowerCase()
+      .replace(/what are his/g, '')
+      .replace(/what is his/g, '')
+      .replace(/tell me about/g, '')
+      .replace(/summarize/g, '')
+      .replace(/his top/g, 'top')
+      .replace(/his best/g, 'best')
+      .replace(/[?!.]/g, '')
+      .trim();
+
     let context = "";
     let hits = [];
 
     try {
-      // 1. Local Search (Orama) always run to provide context
+      // 2. Local Search (Orama) always run to provide context
       if (state.db) {
         const searchResult = await search(state.db, {
-          term: query,
+          term: cleanTerm || query,
           properties: '*',
           limit: 3,
-          tolerance: 2
+          tolerance: 1,
+          boost: {
+            title: 2,
+            content: 1
+          }
         });
         
         if (searchResult && searchResult.hits && searchResult.hits.length > 0) {
@@ -217,7 +232,7 @@ async function initBensonbot() {
     state.db = await create({
       schema: { id: 'string', title: 'string', content: 'string', source: 'string' }
     });
-    await insert(state.db, docs);
+    await insertMultiple(state.db, docs);
     state.isReady = true;
     console.log(`Bensonbot: Ready with ${docs.length} knowledge segments.`);
   } catch (err) {
