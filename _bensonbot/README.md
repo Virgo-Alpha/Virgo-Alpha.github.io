@@ -5,6 +5,11 @@
 1.  **Get a Gemini API Key**
     *   Visit [Google AI Studio](https://aistudio.google.com/) and create a free API key.
 
+3.  **Deployment Summary**: You should deploy the **entire repository** (all files) to a single Netlify project. Netlify will automatically:
+    *   Build and serve your Jekyll frontend.
+    *   Deploy the chatbot backend as a Netlify Function.
+    *   This ensures both parts share the same domain and can communicate without CORS issues.
+
 2.  **Deploy to Netlify**
     *   **Create account**: Sign up or log in to [Netlify](https://app.netlify.com/).
     *   **Import Project**:
@@ -132,7 +137,13 @@ bundle exec jekyll serve
 ```
 Then visit `http://localhost:4000`.
 
-### 2. Checking Logs
+### 2. Netlify Build Fails (CSV gem error)
+If the Netlify build fails with a "Liquid syntax error" or "missing csv" message:
+- Ensure your `Gemfile` includes `gem "csv"`.
+- Ensure your Ruby version is pinned to `3.1.2` in `Gemfile` and `.ruby-version`.
+*(Note: I have already applied these fixes to your repository).*
+
+### 3. Checking Logs
 Open your browser's **Developer Tools (F12)** and look at the **Console** tab. The script logs its progress with the prefix `Bensonbot:`.
 *   If you see "Failed to load kb.json", ensure you've run `npm run build:kb`.
 *   If you see "UI injected", the HTML exists but might be hidden by CSS.
@@ -145,3 +156,17 @@ npm run build:kb
 
 ### 4. Local Search Fallback
 The bot uses **Orama** for local search. Even if you don't have an AI backend running (using `jekyll serve`), the bot will still find relevant information and show it to you as "Local Search Results". This proves that your knowledge base is correctly indexed.
+
+### 5. Advanced Local Testing (AI Mode)
+If you want to test the full AI experience locally (without 404s and with actual AI summaries):
+
+1.  **Install Netlify CLI**: `npm install -g netlify-cli`
+2.  **Create a `.env` file** in the root directory:
+    ```env
+    GEMINI_API_KEY=your_actual_key_here
+    ```
+3.  **Run with Netlify**: 
+    ```bash
+    netlify dev
+    ```
+    This will start Jekyll **and** the Netlify Functions on a new port (usually 8888). Visit the Netlify port to see the full AI in action.

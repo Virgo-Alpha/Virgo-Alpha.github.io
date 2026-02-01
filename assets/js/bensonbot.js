@@ -114,12 +114,11 @@ async function initBensonbot() {
     try {
       // 1. Local Search (Orama)
       if (state.db) {
-        // Try more fuzzy search
         const searchResult = await search(state.db, {
           term: query,
           properties: '*',
           limit: 3,
-          tolerance: 2 // Allow more fuzziness
+          tolerance: 2
         });
         
         if (searchResult && searchResult.hits && searchResult.hits.length > 0) {
@@ -128,41 +127,47 @@ async function initBensonbot() {
         }
       }
 
-      // 2. AI call
-      try {
-        const response = await fetch(BENSONBOT_ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ query, context }),
-        });
+      // 2. Detection of local Jekyll environment
+      const isJekyllServe = window.location.port === "4000";
+      
+      if (isJekyllServe) {
+        console.log("Bensonbot: Local Jekyll environment detected. Bypassing AI call to prevent 404s.");
+        throw new Error("LocalBypass"); // Jump to catch block for local display
+      }
 
-        if (!response.ok) throw new Error(`${response.status}`);
-        
-        const data = await response.json();
-        removeMessage(loadingId);
-        addMessage(data.answer, 'bot');
-      } catch (aiErr) {
-        // Backend failure (expected locally)
-        console.warn("Bensonbot: Backend unreachable. Falling back to local results.");
-        removeMessage(loadingId);
-        
+      // 3. AI call
+      const response = await fetch(BENSONBOT_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query, context }),
+      });
+
+      if (!response.ok) throw new Error(`${response.status}`);
+      
+      const data = await response.json();
+      removeMessage(loadingId);
+      addMessage(data.answer, 'bot');
+
+    } catch (error) {
+      removeMessage(loadingId);
+      
+      if (error.message === "LocalBypass") {
+        // Handle local display gracefully
         if (context) {
-          let fallbackMsg = "I can't reach my AI backend right now (Gemini offline), but I found this relevant information locally:\n\n";
+          let fallbackMsg = "I've found this relevant information in Benson's files:\n\n";
           hits.forEach((h, i) => {
             const title = h.document.title || h.document.source;
             fallbackMsg += `**${title}**:\n${h.document.content.substring(0, 300)}...\n\n`;
           });
-          fallbackMsg += "*(Full AI features will be available after deployment to Netlify)*";
+          fallbackMsg += "*(Full AI summaries will be available once deployed to Netlify)*";
           addMessage(fallbackMsg, 'bot');
         } else {
-          addMessage("I'm sorry, I'm having trouble connecting to the AI, and I couldn't find a good match in my knowledge base either.\n\n**Hint**: Try asking about 'skills', 'experience', or 'projects'.", 'bot');
+          addMessage("I'm sorry, I couldn't find a direct match in the knowledge base. Try asking about 'skills', 'experience', or 'projects'.", 'bot');
         }
+      } else {
+        console.error("Bensonbot: Execution error:", error);
+        addMessage("An error occurred connecting to the AI. Please try again later.", 'bot');
       }
-
-    } catch (error) {
-      console.error("Bensonbot: Execution error:", error);
-      removeMessage(loadingId);
-      addMessage("An unexpected error occurred. Please refresh and try again.", 'bot');
     }
   }
 
@@ -204,7 +209,7 @@ async function initBensonbot() {
     state.isReady = true;
     console.log(`Bensonbot: Ready with ${docs.length} knowledge segments.`);
   } catch (err) {
-    console.warn("Bensonbot: Local knowledge base failed to load. Searching will be unavailable.", err);
+    console.warn("Bensonbot: Local knowledge base failed to load.", err);
   }
 }
 
