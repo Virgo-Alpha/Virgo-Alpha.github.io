@@ -21,6 +21,9 @@
            *   **Value**: `your_api_key_here`
     *   **Deploy**: Click **Deploy site**. Netlify will build your site and deploy the chat function.
 
+> [!NOTE]
+> **Deployment Scope**: You should deploy your **entire repository** to Netlify. Netlify will host your Jekyll frontend and the chatbot function together, allowing them to communicate seamlessly.
+
 3.  **Update Frontend (If needed)**
     *   Once deployed, Netlify gives you a URL (e.g., `https://your-site.netlify.app`). 
     *   Bensonbot is configured to use `/.netlify/functions/chat` which works automatically on that domain.
@@ -116,3 +119,29 @@ gcloud run deploy bensonbot-portfolio \
 *   **Single Service**: Hosts both your portfolio and the chatbot API.
 *   **Scalability**: Scales to zero when not in use (cost-effective).
 *   **No exposed keys**: Environment variables are kept secure on Google Cloud.
+
+---
+
+## 🛠️ Troubleshooting
+
+### 1. Bot icon is not appearing locally
+If you open `index.html` directly in your browser (`file://` protocol), the bot will not load due to security restrictions on ES modules and `fetch` requests.
+**Fix**: Use a local web server:
+```bash
+bundle exec jekyll serve
+```
+Then visit `http://localhost:4000`.
+
+### 2. Checking Logs
+Open your browser's **Developer Tools (F12)** and look at the **Console** tab. The script logs its progress with the prefix `Bensonbot:`.
+*   If you see "Failed to load kb.json", ensure you've run `npm run build:kb`.
+*   If you see "UI injected", the HTML exists but might be hidden by CSS.
+
+### 3. Knowledge Base
+If the bot gives generic answers, ensure `assets/kb.json` contains your content.
+```bash
+npm run build:kb
+```
+
+### 4. Local Search Fallback
+The bot uses **Orama** for local search. Even if you don't have an AI backend running (using `jekyll serve`), the bot will still find relevant information and show it to you as "Local Search Results". This proves that your knowledge base is correctly indexed.

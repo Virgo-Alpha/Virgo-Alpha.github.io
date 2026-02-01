@@ -18,7 +18,7 @@ title: "Home"
       <p><strong>Core skills:</strong> AWS · Python · Linux · Celery · Django · Docker · GCP</p>
 
       <p class="social-links">
-        <a href="https://www.linkedin.com/in/benson-mugure-017153196" target="_blank" aria-label="LinkedIn">
+        <a href="https://www.linkedin.com/in/benson-mugure" target="_blank" aria-label="LinkedIn">
           <i class="fa-brands fa-linkedin"></i>
         </a>
 

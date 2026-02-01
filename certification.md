@@ -8,7 +8,7 @@ permalink: /certification/
 <section id="Certification" class="section" data-aos="fade-up">
   <div class="section-header">
     <h2>📜 Certification</h2>
-    <a class="view-all" href="https://www.linkedin.com/in/benson-mugure-017153196/details/certifications/" target="_blank" rel="noopener">All certificates →</a>
+    <a class="view-all" href="https://www.linkedin.com/in/benson-mugure/details/certifications/" target="_blank" rel="noopener">All certificates →</a>
   </div>
   {% assign certificates_count = site.data.certificates | size %}
   {% if certificates_count > 4 %}

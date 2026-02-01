@@ -15,3 +15,7 @@ youtube_channel: "@dataslinger6379"
 medium_username: "b.mugure"
 exclude:
   - "README.md"
+  - "node_modules"
+  - "vendor"
+  - ".bundle"
+  - ".jekyll-cache"

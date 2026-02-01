@@ -4,7 +4,7 @@ items:
   title: 'Deepfake: The Harder They Fall'
   description: Face-swap demo using Refacer.
   github: ''
-  deployed: https://www.linkedin.com/posts/benson-mugure-017153196_alxabrai-deepfake-appliedai-activity-7142568176705347584-PVdY
+  deployed: https://www.linkedin.com/posts/benson-mugure_alxabrai-deepfake-appliedai-activity-7142568176705347584-PVdY
   article: https://github.com/xaviviro/refacer?ref=alxappliedai.com
   tech_stack:
   - Refacer

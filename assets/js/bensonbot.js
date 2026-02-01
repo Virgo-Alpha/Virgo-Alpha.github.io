@@ -45,14 +45,27 @@ const CHAT_UI_HTML = `
 `;
 
 async function initBensonbot() {
+  console.log("Bensonbot: Initializing UI...");
+
   // Inject UI
-  const div = document.createElement('div');
-  div.innerHTML = CHAT_UI_HTML;
-  document.body.appendChild(div);
+  try {
+    if (!document.getElementById('bensonbot-container')) {
+      const div = document.createElement('div');
+      div.id = 'bensonbot-container';
+      div.innerHTML = CHAT_UI_HTML;
+      document.body.appendChild(div);
+    }
+  } catch (err) {
+    console.error("Bensonbot: Failed to inject UI.", err);
+    return;
+  }
 
   // References
   const fab = document.getElementById('bensonbot-fab');
   const panel = document.getElementById('bensonbot-panel');
+  
+  if (!fab || !panel) return;
+
   const closeBtn = panel.querySelector('.bb-close');
   const form = document.getElementById('bb-form');
   const input = document.getElementById('bb-input');
@@ -63,12 +76,14 @@ async function initBensonbot() {
   fab.addEventListener('click', toggleChat);
   closeBtn.addEventListener('click', toggleChat);
   
-  starters.querySelectorAll('button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      input.value = btn.innerText;
-      handleSubmit();
+  if (starters) {
+    starters.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        input.value = btn.innerText;
+        handleSubmit();
+      });
     });
-  });
+  }
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -87,63 +102,74 @@ async function initBensonbot() {
     const query = input.value.trim();
     if (!query) return;
 
-    // Add User Message
     addMessage(query, 'user');
     input.value = '';
-    
-    // Hide starters
     if (starters) starters.style.display = 'none';
 
-    // Show loading
     const loadingId = addLoading();
 
+    let context = "";
+    let hits = [];
+
     try {
-      // 1. Local Search (Retrieval)
-      let context = "";
+      // 1. Local Search (Orama)
       if (state.db) {
+        // Try more fuzzy search
         const searchResult = await search(state.db, {
           term: query,
           properties: '*',
-          limit: 3
+          limit: 3,
+          tolerance: 2 // Allow more fuzziness
         });
         
-        if (searchResult.hits.length > 0) {
-          context = searchResult.hits.map(hit => hit.document.content).join('\n\n');
-          console.log("Retrieved context:", context.substring(0, 100) + "...");
-        } else {
-          console.log("No relevant context found locally.");
+        if (searchResult && searchResult.hits && searchResult.hits.length > 0) {
+          hits = searchResult.hits;
+          context = hits.map(hit => hit.document.content).join('\n\n');
         }
       }
 
-      // 2. Call LLM (Generation)
-      const response = await fetch(BENSONBOT_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query, context }),
-      });
+      // 2. AI call
+      try {
+        const response = await fetch(BENSONBOT_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query, context }),
+        });
 
-      if (!response.ok) throw new Error("Network response was not ok");
-      
-      const data = await response.json();
-      
-      // Remove loading
-      removeMessage(loadingId);
-      
-      // Add Bot Message
-      addMessage(data.answer, 'bot');
+        if (!response.ok) throw new Error(`${response.status}`);
+        
+        const data = await response.json();
+        removeMessage(loadingId);
+        addMessage(data.answer, 'bot');
+      } catch (aiErr) {
+        // Backend failure (expected locally)
+        console.warn("Bensonbot: Backend unreachable. Falling back to local results.");
+        removeMessage(loadingId);
+        
+        if (context) {
+          let fallbackMsg = "I can't reach my AI backend right now (Gemini offline), but I found this relevant information locally:\n\n";
+          hits.forEach((h, i) => {
+            const title = h.document.title || h.document.source;
+            fallbackMsg += `**${title}**:\n${h.document.content.substring(0, 300)}...\n\n`;
+          });
+          fallbackMsg += "*(Full AI features will be available after deployment to Netlify)*";
+          addMessage(fallbackMsg, 'bot');
+        } else {
+          addMessage("I'm sorry, I'm having trouble connecting to the AI, and I couldn't find a good match in my knowledge base either.\n\n**Hint**: Try asking about 'skills', 'experience', or 'projects'.", 'bot');
+        }
+      }
 
     } catch (error) {
-      console.error("Chat error:", error);
+      console.error("Bensonbot: Execution error:", error);
       removeMessage(loadingId);
-      addMessage("I'm sorry, I'm having trouble connecting right now. Please try again later.", 'bot');
+      addMessage("An unexpected error occurred. Please refresh and try again.", 'bot');
     }
   }
 
   function addMessage(text, sender) {
     const div = document.createElement('div');
     div.className = `bb-msg ${sender}`;
-    // Simple markdown-like parsing for bold/links could go here
-    div.innerText = text; 
+    div.innerHTML = text.replace(/\n/g, '<br>'); 
     messages.appendChild(div);
     messages.scrollTop = messages.scrollHeight;
     return div;
@@ -165,26 +191,20 @@ async function initBensonbot() {
     if (el) el.remove();
   }
 
-  // Initialize Search Index
+  // Load KB
   try {
     const res = await fetch('/assets/kb.json');
-    if (!res.ok) throw new Error("Failed to load knowledge base");
+    if (!res.ok) throw new Error(`${res.status}`);
     const docs = await res.json();
 
     state.db = await create({
-      schema: {
-        id: 'string',
-        title: 'string',
-        content: 'string',
-        source: 'string'
-      }
+      schema: { id: 'string', title: 'string', content: 'string', source: 'string' }
     });
-
     await insert(state.db, docs);
     state.isReady = true;
-    console.log("Bensonbot: Knowledge base loaded.");
+    console.log(`Bensonbot: Ready with ${docs.length} knowledge segments.`);
   } catch (err) {
-    console.error("Bensonbot: Failed to initialize search.", err);
+    console.warn("Bensonbot: Local knowledge base failed to load. Searching will be unavailable.", err);
   }
 }
 

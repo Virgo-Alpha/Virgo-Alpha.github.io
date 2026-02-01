@@ -44,12 +44,11 @@
 
 # Applied AI
 - title: "Deepfake: The Harder They Fall"
-  link: "https://www.linkedin.com/posts/benson-mugure-017153196_alxabrai-deepfake-appliedai-activity-7142568176705347584-PVdY"
+  link: "https://www.linkedin.com/posts/benson-mugure_alxabrai-deepfake-appliedai-activity-7142568176705347584-PVdY"
   devto: "https://dev.to/aws-builders/deep-fake-easily-made-279i"
   description: "Face-swap demo using Refacer."
   stack: "Refacer · Google Colab"
   image: "/assets/new_images/refacer.png"
-  preview_gif: "/assets/new_images/refacer.png"
   preview_gif: "/assets/new_images/refacer.png"
   screenshot: "/assets/new_images/refacer.png"
 

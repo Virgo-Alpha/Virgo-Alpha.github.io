@@ -4,6 +4,7 @@ const glob = require('glob');
 const matter = require('gray-matter');
 
 const SOURCE_DIR = path.join(__dirname, '../source');
+const DATA_DIR = path.join(__dirname, '../../_data');
 const OUTPUT_FILE = path.join(__dirname, '../../assets/kb.json');
 
 // Ensure assets directory exists
@@ -32,33 +33,75 @@ function chunkText(text, maxLength = 1000) {
 
 async function buildKB() {
   console.log('Building Knowledge Base...');
-  const files = glob.sync(`${SOURCE_DIR}/*.md`);
   const documents = [];
   let id = 0;
 
-  for (const file of files) {
-    const content = fs.readFileSync(file, 'utf8');
-    const { data, content: markdownBody } = matter(content);
-    const filename = path.basename(file, '.md');
-    
-    // Simple cleanup: remove markdown headings and links for cleaner text
-    const cleanText = markdownBody
-      .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1') // Remove links, keep text
-      .replace(/[#*`]/g, '') // Remove basic markdown syntax
-      .replace(/\n+/g, ' ') // Collapse newlines
-      .trim();
+  // 1. Process Markdown files in _bensonbot/source
+  const mdFiles = glob.sync(`${SOURCE_DIR}/*.md`);
+  for (const file of mdFiles) {
+    try {
+      const content = fs.readFileSync(file, 'utf8');
+      const { data, content: markdownBody } = matter(content);
+      const filename = path.basename(file, '.md');
+      
+      const cleanText = markdownBody
+        .replace(/<[^>]*>/g, ' ') // Strip HTML tags
+        .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
+        .replace(/[#*`]/g, '')
+        .replace(/\n+/g, ' ')
+        .trim();
 
-    const chunks = chunkText(cleanText);
-
-    chunks.forEach((chunk, index) => {
-      documents.push({
-        id: `doc-${id++}`,
-        source: filename,
-        title: data.title || filename,
-        content: chunk,
-        section: index
+      const chunks = chunkText(cleanText);
+      chunks.forEach((chunk, index) => {
+        documents.push({
+          id: `doc-${id++}`,
+          source: filename,
+          title: data.title || filename,
+          content: chunk,
+          section: index
+        });
       });
-    });
+    } catch (err) {
+      console.error(`Error processing markdown ${file}:`, err.message);
+    }
+  }
+
+  // 2. Process YAML/YML files in _data
+  const yamlFiles = glob.sync(`${DATA_DIR}/*.{yaml,yml}`);
+  for (const file of yamlFiles) {
+    try {
+      const content = fs.readFileSync(file, 'utf8');
+      const filename = path.basename(file);
+      
+      // Use gray-matter with explicit error handling
+      let parsed;
+      try {
+        parsed = matter(`---\n${content}\n---`).data;
+      } catch (yamlErr) {
+        console.error(`YAML Syntax Error in ${filename}:`, yamlErr.reason || yamlErr.message);
+        continue; // Skip this file and move to next
+      }
+      
+      // Flatten the YAML into strings for indexing
+      const stringified = JSON.stringify(parsed, null, 2)
+        .replace(/[{}":,\[\]\n]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      const chunks = chunkText(stringified);
+      chunks.forEach((chunk, index) => {
+        documents.push({
+          id: `doc-${id++}`,
+          source: `data/${filename}`,
+          title: `Data: ${filename}`,
+          content: chunk,
+          section: index
+        });
+      });
+      console.log(`Successfully processed data file: ${filename}`);
+    } catch (err) {
+      console.error(`Error processing ${file}:`, err.message);
+    }
   }
 
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(documents, null, 2));
