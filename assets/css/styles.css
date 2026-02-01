@@ -12,8 +12,7 @@ html.transitioning *:after {
   transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease !important;
 }
 
-:root,
-html[data-theme="dark"] {
+:root {
   --bg: #121212;
   --panel: rgba(255, 255, 255, 0.05);
   --border: rgba(255, 255, 255, 0.1);
@@ -25,52 +24,12 @@ html[data-theme="dark"] {
   --header-bg: rgba(18, 18, 18, 0.8);
 }
 
-/* Light Theme Override */
-@media (prefers-color-scheme: light) {
-  :root {
-    --bg: #bfdbfe;
-    --panel: #ffffff;
-    --border: #e5e7eb;
-    --text: #111827;
-    --muted: #4b5563;
-    --accent: #2563eb;
-    --shadow: 0 10px 18px rgba(2, 6, 23, .08);
-    --glass-blur: none;
-    --header-bg: rgba(255, 255, 255, 0.85);
-  }
+html,
+html[data-theme="dark"] {
+  color-scheme: dark;
 }
 
-/* Force Light Theme */
-html[data-theme="light"] {
-  --bg: #bfdbfe;
-  --panel: #ffffff;
-  --border: #e5e7eb;
-  --text: #111827;
-  --muted: #4b5563;
-  --accent: #2563eb;
-  --shadow: 0 10px 18px rgba(2, 6, 23, .08);
-  --glass-blur: none;
-  --header-bg: rgba(255, 255, 255, 0.85);
-}
 
-/* Theme Toggle Button */
-.theme-toggle {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
-  color: var(--muted);
-  font-size: 1.25rem;
-  transition: color 0.2s, transform 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.theme-toggle:hover {
-  color: var(--text);
-  transform: rotate(15deg);
-}
 
 html {
   background: var(--bg);
@@ -184,13 +143,6 @@ a {
   /* Scale instead of shift */
 }
 
-/* Theme toggle in sidebar */
-.theme-toggle {
-  margin-bottom: 1rem;
-  /* Space below toggle */
-  margin-top: 0;
-  align-self: center;
-}
 
 @media (max-width: 768px) {
   body {
@@ -226,12 +178,6 @@ a {
     padding: 0;
   }
 
-  .theme-toggle {
-    margin-bottom: 0;
-    margin-left: 1rem;
-    order: 10;
-    /* Ensure it stays at the end or positioned correctly */
-  }
 
   .site-title {
     margin-bottom: 0;
@@ -466,30 +412,6 @@ a {
   -webkit-text-fill-color: transparent;
 }
 
-@media (prefers-color-scheme: light) {
-  .about-text h1 {
-    background: linear-gradient(to right, #111, #4b5563);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-}
-
-/* Force Dark Mode (Reset to White Gradient) */
-html[data-theme="dark"] .about-text h1 {
-  background: linear-gradient(to right, #fff, #94a3b8);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Force Light Mode (Dark Gradient) */
-html[data-theme="light"] .about-text h1 {
-  background: linear-gradient(to right, #111, #4b5563);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
 
 /* Carousel Layout */
 .carousel-track {
@@ -648,49 +570,6 @@ a[href*="linkedin"] i {
   color: #0a66c2;
 }
 
-@media (prefers-color-scheme: light) {
-  a[href*="youtube"] i {
-    color: #ff0000;
-  }
-
-  a[href*="github"] i {
-    color: #181717;
-  }
-
-  a[href*="dev.to"] i {
-    color: #0A0A0A;
-  }
-
-  a[href*="medium"] i {
-    color: #12100E;
-  }
-}
-
-/* Also apply if manually set to light */
-/* Also apply if manually set to light */
-html[data-theme="light"] a[href*="youtube"] i {
-  color: #ff0000;
-}
-
-html[data-theme="light"] a[href*="github"] i {
-  color: #181717;
-}
-
-html[data-theme="light"] a[href*="dev.to"] i {
-  color: #0A0A0A;
-}
-
-html[data-theme="light"] a[href*="medium"] i {
-  color: #12100E;
-}
-
-/* Reset to default (inherit) if manually set to dark on a light OS */
-html[data-theme="dark"] a[href*="youtube"] i,
-html[data-theme="dark"] a[href*="github"] i,
-html[data-theme="dark"] a[href*="dev.to"] i,
-html[data-theme="dark"] a[href*="medium"] i {
-  color: inherit;
-}
 
 /* Contact Form */
 .contact-form-container {

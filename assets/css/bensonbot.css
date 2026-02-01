@@ -1,0 +1,243 @@
+/* Bensonbot Floating Button */
+#bensonbot-fab {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--accent, #4285F4);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#bensonbot-fab:hover {
+    transform: scale(1.1);
+}
+
+#bensonbot-fab i {
+    font-size: 28px;
+}
+
+/* Chat Panel */
+#bensonbot-panel {
+    position: fixed;
+    bottom: 6rem;
+    right: 2rem;
+    width: 350px;
+    height: 500px;
+    background: var(--panel, #1e1e1e);
+    border: 1px solid var(--border, #333);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    overflow: hidden;
+}
+
+#bensonbot-panel.open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+/* Chat Header */
+.bb-header {
+    padding: 1rem;
+    background: var(--header-bg, #252525);
+    border-bottom: 1px solid var(--border, #333);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bb-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--text, #fff);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.bb-close {
+    background: transparent;
+    border: none;
+    color: var(--muted, #aaa);
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+/* Chat Body (Messages) */
+.bb-messages {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Scrollbar styling */
+.bb-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.bb-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.bb-messages::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+.bb-msg {
+    max-width: 85%;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    word-wrap: break-word;
+}
+
+.bb-msg.bot {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text, #fff);
+    align-self: flex-start;
+    border-bottom-left-radius: 2px;
+}
+
+.bb-msg.user {
+    background: var(--accent, #4285F4);
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+}
+
+/* Starter Prompts */
+.bb-starters {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.bb-prompt-btn {
+    background: transparent;
+    border: 1px solid var(--border, #444);
+    color: var(--text, #eee);
+    padding: 0.5rem;
+    border-radius: 6px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+}
+
+.bb-prompt-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--accent, #4285F4);
+}
+
+/* Chat Input */
+.bb-input-area {
+    padding: 1rem;
+    background: var(--panel, #1e1e1e);
+    border-top: 1px solid var(--border, #333);
+    display: flex;
+    gap: 0.5rem;
+}
+
+.bb-input {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border, #333);
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    color: var(--text, #fff);
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.bb-input:focus {
+    border-color: var(--accent, #4285F4);
+}
+
+.bb-send {
+    background: var(--accent, #4285F4);
+    color: white;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.bb-send:disabled {
+    background: var(--muted, #555);
+    cursor: not-allowed;
+}
+
+.bb-send:hover:not(:disabled) {
+    transform: scale(1.1);
+}
+
+/* Loading Dots */
+.typing-dots span {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--text);
+    border-radius: 50%;
+    animation: typing 1.4s infinite ease-in-out both;
+    margin: 0 2px;
+    opacity: 0.6;
+}
+
+.typing-dots span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.typing-dots span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes typing {
+
+    0%,
+    80%,
+    100% {
+        transform: scale(0);
+    }
+
+    40% {
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 480px) {
+    #bensonbot-panel {
+        width: calc(100% - 2rem);
+        right: 1rem;
+        bottom: 5rem;
+        height: 60vh;
+    }
+}

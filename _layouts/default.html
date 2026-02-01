@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     {% include head.html %}
+    <link rel="stylesheet" href="{{ '/assets/css/bensonbot.css' | relative_url }}">
   </head>
   <body>
     <div id="tsparticles"></div>
@@ -29,9 +30,6 @@
       <div class="wrap">
         <!-- <a class="brand" href="#about">MS</a> -->
         <nav class="nav">
-          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode">
-            <i class="fa-solid fa-moon"></i>
-          </button>
           <a href="{{ '/' | relative_url }}">About</a>
           <a href="{{ '/projects/' | relative_url }}">Projects</a>
           <a href="{{ '/certification/' | relative_url }}">Certification</a>
@@ -53,61 +51,10 @@
     <!-- tsParticles -->
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.11.1/tsparticles.bundle.min.js"></script>
 
+    <!-- Bensonbot -->
+    <script type="module" src="{{ '/assets/js/bensonbot.js' | relative_url }}"></script>
+
     <script>
-      // Theme Toggle Logic
-      const toggleBtn = document.getElementById('theme-toggle');
-      const icon = toggleBtn.querySelector('i');
-      const html = document.documentElement;
-      
-      // Check for saved user preference
-      const savedTheme = localStorage.getItem('theme');
-      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-      function updateIcon(theme) {
-        if (theme === 'light') {
-          icon.classList.remove('fa-moon');
-          icon.classList.add('fa-sun');
-        } else {
-          icon.classList.remove('fa-sun');
-          icon.classList.add('fa-moon');
-        }
-      }
-
-      function setTheme(theme) {
-        html.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
-        updateIcon(theme);
-        
-        // Reload particles if function exists
-        if (typeof loadParticles === 'function') {
-          loadParticles(theme);
-        }
-      }
-
-      // Initialize Theme
-      if (savedTheme) {
-        // Use saved preference
-        html.setAttribute('data-theme', savedTheme);
-        updateIcon(savedTheme);
-      } else {
-        // Use system preference
-        const defaultTheme = systemPrefersDark ? 'dark' : 'light';
-        html.setAttribute('data-theme', defaultTheme);
-        updateIcon(defaultTheme);
-      }
-
-      // Toggle Listener
-      toggleBtn.addEventListener('click', () => {
-        html.classList.add('transitioning');
-        const currentTheme = html.getAttribute('data-theme');
-        const targetTheme = currentTheme === 'light' ? 'dark' : 'light';
-        
-        setTheme(targetTheme);
-
-        setTimeout(() => {
-          html.classList.remove('transitioning');
-        }, 300);
-      });
       
       // Initialize AOS
       AOS.init({
@@ -189,93 +136,14 @@
         detectRetina: true
       };
 
-      const cloudsConfig = {
-        fpsLimit: 60,
-        particles: {
-          number: {
-            value: 6, // Fewer clouds
-            density: { enable: true, area: 800 }
-          },
-          color: { value: "#ffffff" },
-          shape: {
-            type: "image",
-            image: {
-              src: "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9IiNmZmZmZmYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTE3IDEwQzE3IDYuNjg2MjkgMTQuMzEzNyA0IDExIDRDOC4xOTc5OSA0IDUuODQ1MDQgNS45NTI5OCA1LjE4ODQ2IDguNTcyNzlDMi43OTM3MyA4Ljc5MDkzIDEgMTAuNzYzNCAxIDEzLjEyNUMxIDE1LjY1OTYgMy4wMTQ3MiAxNy43NSA1LjUgMTcuNzVIMTYuNUMxOS41Mzc2IDE3Ljc1IDIyIDE1LjI4NzYgMjIgMTIuMjVDMjIgOS40Nzk1MiAxOS45NTc1IDcuMTg5NTYgMTcuMjkgNi44NDA3M0MxNy4wOTg0IDcuODQ4OCAxNyA4LjkwNTYzIDE3IDEwWiIvPjwvc3ZnPg==",
-              width: 100,
-              height: 100
-            }
-          },
-          opacity: {
-            value: 0.8,
-            random: false,
-          },
-          size: {
-            value: { min: 60, max: 120 },
-            random: true
-          },
-          move: {
-            enable: true,
-            speed: 0.3, // Drift slowly
-            direction: "right",
-            random: false,
-            straight: false,
-            outModes: "out"
-          }
-        },
-        interactivity: {
-          events: {
-            onHover: { enable: true, mode: "repulse" },
-            onClick: { enable: true, mode: "push" }
-          },
-          modes: {
-            repulse: { distance: 200, duration: 0.4 },
-            push: { quantity: 2 }
-          }
-        },
-        detectRetina: true
-      };
 
       const tsparticlesDiv = document.getElementById("tsparticles");
 
-      async function loadParticles(theme) {
-        // Use clouds for light mode, stars for dark mode
-        const config = theme === 'light' ? cloudsConfig : starsConfig;
-        await tsParticles.load("tsparticles", config);
+      async function loadParticles() {
+        await tsParticles.load("tsparticles", starsConfig);
       }
       
-      // Initialize based on current theme
-      // We need to know the initial effective theme.
-      // The script at the top sets localStorage or data-theme, but we can check the html attribute.
-      const initialTheme = document.documentElement.getAttribute('data-theme') || 
-                           (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      loadParticles(initialTheme);
-
-      // Hook into the existing theme mechanism is tricky because the script is inside `head.html` or inline.
-      // But we have the toggle button listener above!
-      // We need to update that listener to call loadParticles.
-      // Since I am replacing the END of the script, I need to make sure I am not breaking the listener above.
-      // Wait, the listener above (lines 75-103) calls `setTheme`.
-      // `setTheme` is defined there. I can't easily modify `setTheme` from here if it's in a closure or previous block.
-      // But `setTheme` sets `localStorage`.
-      // I can add a listener to the toggle button again, OR rely on a MutationObserver on html[data-theme], OR just update the toggle code.
-      // The toggle code is earlier in the file (lines 75-103).
-      // I should probably replace the WHOLE script block or at least the relevant parts if I want to integrate clean.
-      // However, I am editing the bottom part.
-      // Let's use a MutationObserver to watch for theme changes on HTML tag. This is robust.
-      
-      const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-          if (mutation.type === "attributes" && mutation.attributeName === "data-theme") {
-            const newTheme = document.documentElement.getAttribute('data-theme');
-            loadParticles(newTheme);
-          }
-        });
-      });
-      
-      observer.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ["data-theme"]
-      });
+      loadParticles();
 
       // Smooth scroll
       document.querySelectorAll('a[href^="#"]').forEach(a => {
