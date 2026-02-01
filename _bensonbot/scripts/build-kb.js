@@ -38,25 +38,37 @@ async function buildKB() {
 
   // 1. Process Markdown files in _bensonbot/source
   const mdFiles = glob.sync(`${SOURCE_DIR}/*.md`);
+  const EXCLUDED_FILES = ['articles.md', 'projects.md', 'resume.md', 'certification.md'];
+
   for (const file of mdFiles) {
     try {
+      const filename = path.basename(file);
+      if (EXCLUDED_FILES.includes(filename)) {
+        console.log(`Skipping template file: ${filename}`);
+        continue;
+      }
+
       const content = fs.readFileSync(file, 'utf8');
       const { data, content: markdownBody } = matter(content);
-      const filename = path.basename(file, '.md');
+      const fileBasename = path.basename(file, '.md');
       
       const cleanText = markdownBody
+        .replace(/{%.*?%}/g, ' ') // Strip Liquid tags
+        .replace(/{{.*?}}/g, ' ') // Strip Liquid variables
         .replace(/<[^>]*>/g, ' ') // Strip HTML tags
         .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
         .replace(/[#*`]/g, '')
         .replace(/\n+/g, ' ')
         .trim();
 
+      if (!cleanText) continue;
+
       const chunks = chunkText(cleanText);
       chunks.forEach((chunk, index) => {
         documents.push({
           id: `doc-${id++}`,
-          source: filename,
-          title: data.title || filename,
+          source: fileBasename,
+          title: data.title || fileBasename,
           content: chunk,
           section: index
         });
@@ -72,32 +84,56 @@ async function buildKB() {
     try {
       const content = fs.readFileSync(file, 'utf8');
       const filename = path.basename(file);
+      const category = filename.split('.')[0];
       
-      // Use gray-matter with explicit error handling
       let parsed;
       try {
         parsed = matter(`---\n${content}\n---`).data;
       } catch (yamlErr) {
         console.error(`YAML Syntax Error in ${filename}:`, yamlErr.reason || yamlErr.message);
-        continue; // Skip this file and move to next
+        continue;
       }
       
-      // Flatten the YAML into strings for indexing
-      const stringified = JSON.stringify(parsed, null, 2)
-        .replace(/[{}":,\[\]\n]/g, ' ')
-        .replace(/\s+/g, ' ')
-        .trim();
+      // Better indexing for YAML: turn items into descriptive sentences
+      let items = [];
+      if (Array.isArray(parsed)) {
+        items = parsed;
+      } else if (parsed && typeof parsed === 'object') {
+        // Handle files like experiences.yaml where items are in an 'items' key
+        items = parsed.items || [parsed];
+      }
 
-      const chunks = chunkText(stringified);
-      chunks.forEach((chunk, index) => {
+      items.forEach((item, itemIdx) => {
+        let entryText = `Category: ${category}. `;
+        
+        // Add specific field labels to help search
+        if (item.role) entryText += `Role / Position / Job Title: ${item.role}. `;
+        if (item.company) entryText += `Company / Organization: ${item.company}. `;
+        if (item.title) entryText += `Project Title: ${item.title}. `;
+        if (item.description) entryText += `Description: ${item.description}. `;
+        if (item.stack) entryText += `Tech Stack / Technologies: ${item.stack}. `;
+        if (item.details && Array.isArray(item.details)) {
+          entryText += `Details: ${item.details.join(' ')} `;
+        }
+        
+        // Fallback for other fields
+        Object.entries(item).forEach(([key, value]) => {
+          if (!['role', 'company', 'title', 'description', 'stack', 'details', 'image', 'preview_gif', 'screenshot', 'link', 'github', 'devto', 'slides'].includes(key)) {
+            if (typeof value === 'string' || typeof value === 'number') {
+              entryText += `${key}: ${value}. `;
+            }
+          }
+        });
+
         documents.push({
           id: `doc-${id++}`,
           source: `data/${filename}`,
-          title: `Data: ${filename}`,
-          content: chunk,
-          section: index
+          title: item.title || item.role || item.name || `Data: ${filename}`,
+          content: entryText.trim(),
+          section: itemIdx
         });
       });
+
       console.log(`Successfully processed data file: ${filename}`);
     } catch (err) {
       console.error(`Error processing ${file}:`, err.message);

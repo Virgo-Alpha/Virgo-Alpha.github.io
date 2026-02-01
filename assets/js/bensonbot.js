@@ -109,10 +109,21 @@ async function initBensonbot() {
     const loadingId = addLoading();
 
     // 1. Clean query: Extract core keywords but keep important adjectives like 'top'
-    const cleanTerm = query.toLowerCase()
+    let cleanTerm = query.toLowerCase()
       .replace(/\b(what are his|what is his|tell me about|summarize)\b/g, '')
       .replace(/[?!.]/g, '')
       .trim();
+
+    // 1.1 Query Expansion: Map synonyms to help Orama find specific fields
+    if (cleanTerm.includes('position') || cleanTerm.includes('job') || cleanTerm.includes('work')) {
+      cleanTerm += ' role company experience';
+    }
+    if (cleanTerm.includes('project')) {
+      cleanTerm += ' stack technologies github';
+    }
+    if (cleanTerm.includes('skill')) {
+      cleanTerm += ' aws python linux cloud engineering';
+    }
 
     let context = "";
     let hits = [];
