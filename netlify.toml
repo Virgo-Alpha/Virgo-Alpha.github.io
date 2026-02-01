@@ -1,6 +1,10 @@
 [build]
-  publish = "."
+  command = "npm run build:kb && bundle exec jekyll build"
+  publish = "_site"
   functions = "netlify/functions"
+
+[context.production.environment]
+  JEKYLL_ENV = "production"
 
 [[headers]]
   for = "/*"

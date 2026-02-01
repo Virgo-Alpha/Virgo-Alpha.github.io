@@ -5,7 +5,8 @@ _site/
 .jekyll-metadata
 vendor/
 .bundle/
-Gemfile.lock
+# Gemfile.lock (Commit it for faster/stabler builds)
+# Gemfile.lock
 
 # Node (if you ever add tooling)
 node_modules/
