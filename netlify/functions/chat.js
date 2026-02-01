@@ -18,7 +18,7 @@ exports.handler = async (event, context) => {
     }
 
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const systemPrompt = `You are Bensonbot, an AI assistant for Benson Mugure's portfolio.
     Your goal is to help recruiters and visitors learn about Benson's skills, experience, and projects.

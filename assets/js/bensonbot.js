@@ -112,7 +112,7 @@ async function initBensonbot() {
     let hits = [];
 
     try {
-      // 1. Local Search (Orama)
+      // 1. Local Search (Orama) always run to provide context
       if (state.db) {
         const searchResult = await search(state.db, {
           term: query,
@@ -127,47 +127,59 @@ async function initBensonbot() {
         }
       }
 
-      // 2. Detection of local Jekyll environment
-      const isJekyllServe = window.location.port === "4000";
-      
-      if (isJekyllServe) {
-        console.log("Bensonbot: Local Jekyll environment detected. Bypassing AI call to prevent 404s.");
-        throw new Error("LocalBypass"); // Jump to catch block for local display
-      }
+      // 2. Platform Detection
+      const isNetlify = window.location.hostname.includes('netlify.app') || 
+                        window.location.hostname === 'bensonmugure.com'; // Adjust if custom domain
+      const isLocalJekyll = window.location.port === "4000";
+      const isGitHubPages = window.location.hostname.includes('github.io');
 
-      // 3. AI call
-      const response = await fetch(BENSONBOT_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query, context }),
-      });
-
-      if (!response.ok) throw new Error(`${response.status}`);
-      
-      const data = await response.json();
-      removeMessage(loadingId);
-      addMessage(data.answer, 'bot');
-
-    } catch (error) {
-      removeMessage(loadingId);
-      
-      if (error.message === "LocalBypass") {
-        // Handle local display gracefully
-        if (context) {
-          let fallbackMsg = "I've found this relevant information in Benson's files:\n\n";
-          hits.forEach((h, i) => {
-            const title = h.document.title || h.document.source;
-            fallbackMsg += `**${title}**:\n${h.document.content.substring(0, 300)}...\n\n`;
+      // 3. Conditional AI call
+      if (isNetlify) {
+        try {
+          const response = await fetch(BENSONBOT_ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query, context }),
           });
-          fallbackMsg += "*(Full AI summaries will be available once deployed to Netlify)*";
-          addMessage(fallbackMsg, 'bot');
-        } else {
-          addMessage("I'm sorry, I couldn't find a direct match in the knowledge base. Try asking about 'skills', 'experience', or 'projects'.", 'bot');
+
+          if (!response.ok) throw new Error(`${response.status}`);
+          
+          const data = await response.json();
+          removeMessage(loadingId);
+          addMessage(data.answer, 'bot');
+          return; // Success
+        } catch (aiErr) {
+          console.warn("Bensonbot: Netlify backend failed. Falling back to local data.", aiErr);
         }
       } else {
-        console.error("Bensonbot: Execution error:", error);
-        addMessage("An error occurred connecting to the AI. Please try again later.", 'bot');
+        const platform = isLocalJekyll ? "Local Jekyll" : (isGitHubPages ? "GitHub Pages" : "Unknown Environment");
+        console.log(`Bensonbot: ${platform} detected. Using local search mode.`);
       }
+
+      // 4. Fallback (for local, GH Pages, or Netlify error)
+      removeMessage(loadingId);
+      if (context) {
+        let fallbackMsg = isLocalJekyll || isGitHubPages 
+          ? "In this environment, I'm using local search. Here's what I found in Benson's files:\n\n"
+          : "I'm having trouble reaching my AI brain, but here's what I found locally:\n\n";
+
+        hits.forEach((h, i) => {
+          const title = h.document.title || h.document.source;
+          fallbackMsg += `**${title}**:\n${h.document.content.substring(0, 300)}...\n\n`;
+        });
+        
+        if (isGitHubPages) {
+          fallbackMsg += "*(Note: Full AI summaries are available on the Netlify deployment.)*";
+        }
+        addMessage(fallbackMsg, 'bot');
+      } else {
+        addMessage("I couldn't find a direct match in the knowledge base. Try asking about 'skills', 'experience', or 'projects'.", 'bot');
+      }
+
+    } catch (error) {
+      console.error("Bensonbot: Execution error:", error);
+      removeMessage(loadingId);
+      addMessage("An unexpected error occurred. Please try again later.", 'bot');
     }
   }
 
