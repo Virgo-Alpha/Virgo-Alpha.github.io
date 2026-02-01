@@ -1,5 +1,5 @@
 ---
-title: "Home"
+title: "Benson Mugure - Home & Core Skills"
 ---
 
 <!-- Inline carousel-only styles (kept here so they don't clash with grid) -->

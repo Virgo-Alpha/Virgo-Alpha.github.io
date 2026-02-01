@@ -108,14 +108,9 @@ async function initBensonbot() {
 
     const loadingId = addLoading();
 
-    // 1. Clean query for better Orama matching (remove stop words/question phrases)
+    // 1. Clean query: Extract core keywords but keep important adjectives like 'top'
     const cleanTerm = query.toLowerCase()
-      .replace(/what are his/g, '')
-      .replace(/what is his/g, '')
-      .replace(/tell me about/g, '')
-      .replace(/summarize/g, '')
-      .replace(/his top/g, 'top')
-      .replace(/his best/g, 'best')
+      .replace(/\b(what are his|what is his|tell me about|summarize)\b/g, '')
       .replace(/[?!.]/g, '')
       .trim();
 
@@ -123,16 +118,18 @@ async function initBensonbot() {
     let hits = [];
 
     try {
-      // 2. Local Search (Orama) always run to provide context
+      // 2. Local Search (Orama)
+      // We set tolerance to 0 to avoid fuzzy collisions like "top" matching "to" in titles.
+      // We increase content boost to help find specific skill keywords inside documents.
       if (state.db) {
         const searchResult = await search(state.db, {
           term: cleanTerm || query,
           properties: '*',
-          limit: 3,
-          tolerance: 1,
+          limit: 5, // Slightly more hits to give the AI more context
+          tolerance: 0, 
           boost: {
-            title: 2,
-            content: 1
+            title: 1.5,
+            content: 2.0 // Boost content more so specific skills are found
           }
         });
         
